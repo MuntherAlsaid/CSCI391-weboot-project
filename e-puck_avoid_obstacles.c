@@ -9,8 +9,7 @@
 
 int main(int argc, char **argv) {
   wb_robot_init();
-  
-  // Initialize motors
+ 
   WbDeviceTag left_motor = wb_robot_get_device("left wheel motor");
   WbDeviceTag right_motor = wb_robot_get_device("right wheel motor");
 
@@ -19,7 +18,7 @@ int main(int argc, char **argv) {
   wb_motor_set_velocity(left_motor, 0.0);
   wb_motor_set_velocity(right_motor, 0.0);
 
-  // Initialize distance sensors
+  
   WbDeviceTag prox_sensors[8];
   char prox_sensor_name[50];
   for (int ind = 0; ind < 8; ++ind) {
@@ -31,14 +30,14 @@ int main(int argc, char **argv) {
   double left_speed = MAX_SPEED;
   double right_speed = MAX_SPEED;
 
-  // Main loop
+  
   while (wb_robot_step(TIME_STEP) != -1) {
-    // Read sensor values
+    
     bool left_wall = wb_distance_sensor_get_value(prox_sensors[5]) > 80;
-    bool left_corner = wb_distance_sensor_get_value(prox_sensors[6]) > 80; // Corrected sensor index
-    bool front_wall = wb_distance_sensor_get_value(prox_sensors[7]) > 80; // Corrected sensor index
+    bool left_corner = wb_distance_sensor_get_value(prox_sensors[6]) > 80; 
+    bool front_wall = wb_distance_sensor_get_value(prox_sensors[7]) > 80; 
 
-    // Logic for motor speed based on sensor readings
+   
     if (front_wall) {
       left_speed = MAX_SPEED;
       right_speed = -MAX_SPEED;
@@ -57,7 +56,7 @@ int main(int argc, char **argv) {
       }
     }
 
-    // Set motor velocities
+    
     wb_motor_set_velocity(left_motor, left_speed);
     wb_motor_set_velocity(right_motor, right_speed);
   }
